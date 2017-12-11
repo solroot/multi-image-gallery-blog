@@ -20,14 +20,10 @@ class ImageController extends Controller
     /** @var  FileManager */
     private $fileManager;
 
-    /** @var  ImageResizer */
-    private $imageResizer;
-
-    public function __construct(EntityManagerInterface $em, FileManager $fileManager, ImageResizer $imageResizer)
+    public function __construct(EntityManagerInterface $em, FileManager $fileManager)
     {
         $this->em = $em;
         $this->fileManager = $fileManager;
-        $this->imageResizer = $imageResizer;
     }
 
     /**
