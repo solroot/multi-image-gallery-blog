@@ -29,8 +29,7 @@
                     <div class="single-gallery__item card">
 
                         {% autoescape false %}
-                            <img src="{{ image|getImageUrl(250) }}" alt="{{ image.originalFilename }}"
-                                 data-srcset="{{ image|getImageSrcset }}"
+                            <img src="{{ image|getImageUrl }}" alt="{{ image.originalFilename }}"
                                  class="single-gallery__item-image card-img-top">
                         {% endautoescape %}
 
@@ -92,12 +91,11 @@
         $(function () {
             $('.single-gallery__item-image').on('click', function () {
                 var src = $(this).attr('src');
-                var srcset = $(this).attr('data-srcset');
                 var $modal = $('.single-gallery__modal');
                 var $modalBody = $modal.find('.modal-body');
 
                 $modalBody.html('');
-                $modalBody.append($('<img src="' + src + '" srcset="' + srcset + '" class="single-gallery__modal-image">'));
+                $modalBody.append($('<img src="' + src + '" class="single-gallery__modal-image">'));
                 $modal.modal({});
             });
         })

@@ -35,21 +35,9 @@ class ImageController extends Controller
      */
     public function serveImageAction(Request $request, $id)
     {
-        $idFragments = explode('--', $id);
-        $id = $idFragments[0];
-        $size = (int)$idFragments[1] ?? null;
-
-        if (false === is_null($size) && false === $this->imageResizer->isSupportedSize($size)) {
-            throw new NotFoundHttpException('Image not found');
-        }
-
         $image = $this->em->getRepository(Image::class)->find($id);
         if (empty($image)) {
             throw new NotFoundHttpException('Image not found');
-        }
-
-        if (false === is_null($size)) {
-            return $this->renderResizedImage($image, $size);
         }
 
         return $this->renderRawImage($image);
@@ -87,26 +75,6 @@ class ImageController extends Controller
         $fullPath = $this->fileManager->getFilePath($image->getFilename());
 
         return $this->buildImageResponse($fullPath, $image->getOriginalFilename(), 1209600);
-    }
-
-    private function renderResizedImage(Image $image, int $size)
-    {
-        $fullPath = $this->fileManager->getFilePath($image->getFilename());
-
-        try {
-            $fullPath = $this->imageResizer->getResizedPath($fullPath, $size);
-        } catch (\Exception $e) {
-            throw new NotFoundHttpException('Image not found');
-        }
-
-        // Image hasn't been resized yet, render placeholder without cache ttl
-        if (true === is_null($fullPath)) {
-            $fullPath = $this->fileManager->getPlaceholderImagePath();
-
-            return $this->buildImageResponse($fullPath, 'placeholder.jpg', -1);
-        }
-
-        return $this->buildImageResponse($fullPath, 'placeholder.jpg', 1209600);
     }
 
 }
