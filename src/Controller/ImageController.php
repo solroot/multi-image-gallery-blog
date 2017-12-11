@@ -94,7 +94,7 @@ class ImageController extends Controller
         $fullPath = $this->fileManager->getFilePath($image->getFilename());
 
         try {
-            $fullPath = $this->imageResizer->getResizedPath($fullPath, $size, true);
+            $fullPath = $this->imageResizer->getResizedPath($fullPath, $size);
         } catch (\Exception $e) {
             throw new NotFoundHttpException('Image not found');
         }

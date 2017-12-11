@@ -36,3 +36,6 @@ services:
       public: true
       arguments:
         $path: '%kernel.project_dir%/var/uploads'
+
+    App\Command\:
+        resource: '../src/Command/*'
